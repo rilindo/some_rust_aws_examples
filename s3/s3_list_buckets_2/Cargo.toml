@@ -1,5 +1,5 @@
 [package]
-name = "s3_list"
+name = "s3_list_buckets_2"
 version = "0.1.0"
 authors = ["Rilindo Foster <rilindo.foster@monzell.com>"]
 edition = "2018"
