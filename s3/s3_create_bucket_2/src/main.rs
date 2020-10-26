@@ -1,3 +1,12 @@
+/*
+Refactored example. To use, you run cargo run record_name record_type ipaddress ttl hosted_zone_id
+
+Example:
+
+cargo run subdomain.example.com A 192.168.15.17 300 Z000000000000
+
+*/
+
 extern crate rusoto_core;
 extern crate rusoto_s3;
 
@@ -62,8 +71,6 @@ fn bucket_create(config: Config) -> Result<(), Box<dyn Error>> {
 fn main() {
 
     let args: Vec<String> = env::args().collect();
-
-
 
     let config  = Config::new(&args).unwrap_or_else(|err|{
         eprintln!("Problem parsing arguments: {}", err);
