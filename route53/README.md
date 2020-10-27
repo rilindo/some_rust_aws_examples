@@ -1,1 +1,1 @@
-# Ruse/Rusoto Route 53 Examples
+# Rust/Rusoto Route 53 Examples
