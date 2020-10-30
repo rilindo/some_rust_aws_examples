@@ -26,7 +26,7 @@ async fn main() {
     let resp = client.send_message(create_message_req).await;
 
     println!(
-        "Topic message '{}' created, resp: {:#?}",
+        "Queue message '{}' created, resp: {:#?}",
         my_message_body.clone(),
         resp.unwrap()
     );
