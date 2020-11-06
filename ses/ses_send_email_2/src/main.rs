@@ -24,7 +24,10 @@ async fn main() {
     // Second try with ses. looking better. That said, I'll
     // rewrite it to break it out to use functions.
 
-    let client = SesClient::new(Region::UsEast2);
+    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
+    // to under how the defaults work for regions.
+
+    let client = SesClient::new(Region::default());
 
     let email_config = EmailConfig {
         destination: "jdoe@example.com".to_string(),

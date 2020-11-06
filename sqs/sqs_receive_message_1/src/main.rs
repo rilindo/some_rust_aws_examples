@@ -34,7 +34,11 @@ async fn receive_message(client: &SqsClient, queue_url: &GetQueueUrlResult) -> R
 }
 
 fn main() {
-    let client = SqsClient::new(Region::UsEast2);
+
+    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
+    // to under how the defaults work for regions.
+
+    let client = SqsClient::new(Region::default());
     let my_queue_name = "my_queue_name";
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 

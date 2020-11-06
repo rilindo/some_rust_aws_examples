@@ -39,7 +39,10 @@ impl Config {
 
 async fn bucket_request(bucket_name: &str, location_constraint: CreateBucketConfiguration) {
 
-    let client = S3Client::new(Region::UsEast2);
+    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
+    // to under how the defaults work for regions.
+
+    let client = S3Client::new(Region::default());
 
     let create_bucket_req = CreateBucketRequest {
         bucket: bucket_name.to_string(),

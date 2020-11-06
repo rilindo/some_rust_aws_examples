@@ -61,7 +61,10 @@ fn create_name_record(config: NameServerRecord) -> Result<(), Box<dyn Error>> {
 
 async fn route53_request(record_name: &str, record_type: &str, hosted_zone_id: &str, ttl: i64, ip: &str) {
 
-    let client = Route53Client::new(Region::UsEast1);
+    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
+    // to under how the defaults work for regions.
+    
+    let client = Route53Client::new(Region::default());
 
     let resource_record = ResourceRecord {
         value: ip.to_string()

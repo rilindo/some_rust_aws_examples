@@ -13,7 +13,10 @@ async fn main() {
     // First try with ses. Pretty messy, but it works. I will look into
     // refactoring this on the next round.
 
-    let client = SesClient::new(Region::UsEast2);
+    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
+    // to under how the defaults work for regions.
+
+    let client = SesClient::new(Region::default());
 
     let my_destination = "<jdoe@example.com>".to_string();
     let my_reply_to_addresses = ["webmaster@example.org".to_string()];
