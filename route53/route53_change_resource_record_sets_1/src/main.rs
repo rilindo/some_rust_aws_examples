@@ -13,7 +13,12 @@ use rusoto_route53::{Route53,
 
 #[tokio::main]
 async fn main() {
-    let client = Route53Client::new(Region::UsEast1);
+
+    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
+    // to under how the defaults work for regions.
+
+    let client = Route53Client::new(Region::default());
+    
     let my_name = "mydomain.example.com".to_string();
     let my_hosted_zone_id = "MYRECORDSETID";
     let my_ttl: i64 = "300".parse().expect("Not a number!");

@@ -6,7 +6,11 @@ use rusoto_s3::{S3, S3Client, CreateBucketRequest, CreateBucketConfiguration};
 
 #[tokio::main]
 async fn main() {
-    let client = S3Client::new(Region::UsEast2);
+
+    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
+    // to under how the defaults work for regions.
+    
+    let client = S3Client::new(Region::default());
 
     let my_bucket_name = "mybucketname".to_string();
     let location_constraint = CreateBucketConfiguration {

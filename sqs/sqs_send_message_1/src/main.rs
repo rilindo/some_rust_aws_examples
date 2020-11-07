@@ -9,7 +9,11 @@ use rusoto_sqs::{Sqs,
 
 #[tokio::main]
 async fn main() {
-    let client = SqsClient::new(Region::UsEast1);
+
+    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
+    // to under how the defaults work for regions.
+
+    let client = SqsClient::new(Region::default());
 
     /*
     I'll do the queue url lookup in another example.

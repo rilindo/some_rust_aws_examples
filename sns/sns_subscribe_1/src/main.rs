@@ -9,7 +9,11 @@ use rusoto_sns::{Sns,
 
 #[tokio::main]
 async fn main() {
-    let client = SnsClient::new(Region::UsEast2);
+
+    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
+    // to under how the defaults work for regions.
+
+    let client = SnsClient::new(Region::default());
     let my_topic_arn = "arn:aws:sns:us-east-2:123456789012:mytopicname".to_string();
     let my_endpoint = "jdoe@example.com".to_string();
     let my_protocol = "email".to_string();
