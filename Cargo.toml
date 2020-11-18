@@ -1,0 +1,12 @@
+[workspace]
+
+members = [
+  "ec2/*",
+  "iam/*",
+  "kms/*",
+  "route53/*",
+  "s3/*",
+  "ses/*",
+  "sns/*",
+  "sqs/*"
+]
