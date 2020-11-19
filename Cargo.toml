@@ -8,5 +8,6 @@ members = [
   "s3/*",
   "ses/*",
   "sns/*",
-  "sqs/*"
+  "sqs/*",
+  "ssm/*"
 ]
