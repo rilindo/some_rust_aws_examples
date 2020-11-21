@@ -1,9 +1,8 @@
 /*
-Refactored example. To use, you run cargo run record_name record_type ipaddress ttl hosted_zone_id
 
-Example:
-
-cargo run subdomain.example.com A 192.168.15.17 300 Z000000000000
+This was one of the original example using an arguments. Since then,
+I have been using clap instead to pass arguements, so at some point,
+this will be re-done.
 
 */
 
@@ -38,9 +37,6 @@ impl Config {
 }
 
 async fn bucket_request(bucket_name: &str, location_constraint: CreateBucketConfiguration) {
-
-    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
-    // to under how the defaults work for regions.
 
     let client = S3Client::new(Region::default());
 

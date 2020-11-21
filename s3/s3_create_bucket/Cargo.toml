@@ -1,5 +1,5 @@
 [package]
-name = "s3_create_bucket_1"
+name = "s3_create_bucket"
 version = "0.1.0"
 authors = ["Rilindo Foster <rilindo@monzell-labs.net>"]
 edition = "2018"
