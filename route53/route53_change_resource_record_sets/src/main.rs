@@ -63,7 +63,7 @@ async fn route53_request(record_name: &str, record_type: &str, hosted_zone_id: &
 
     // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
     // to under how the defaults work for regions.
-    
+
     let client = Route53Client::new(Region::default());
 
     let resource_record = ResourceRecord {
@@ -92,12 +92,12 @@ async fn route53_request(record_name: &str, record_type: &str, hosted_zone_id: &
         ..Default::default()
     };
 
-    let change_resource_record_sets_req = ChangeResourceRecordSetsRequest {
+    let change_resource_record_sets_request = ChangeResourceRecordSetsRequest {
         change_batch: change_batch.clone(),
         hosted_zone_id: hosted_zone_id.to_string()
     };
 
-    let resp = client.change_resource_record_sets(change_resource_record_sets_req).await;
+    let resp = client.change_resource_record_sets(change_resource_record_sets_request).await;
 
     println!(
         "RecordSet {} created, resp: {:#?}",
