@@ -1,6 +1,9 @@
 extern crate rusoto_core;
 extern crate rusoto_ec2;
 
+extern crate clap;
+use clap::{Arg, App};
+
 use rusoto_core::Region;
 use rusoto_ec2::{Ec2,
     Ec2Client,
@@ -57,12 +60,22 @@ fn process_describe_security_groups(resp: DescribeSecurityGroupsResult) {
 }
 
 fn main() {
-    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
-    // to under how the defaults work for regions.
+
+    let matches = App::new("Example List Record Set Using Rust")
+                            .version("1.0")
+                            .author("rilindo.foster@<rilindo.foster@monzell.com")
+                            .about("List Record Sets")
+                            .arg(Arg::with_name("VPCID")
+                               .help("VPC ID")
+                               .required(true)
+                               .index(1))
+                              .get_matches();
+    let vpc_id = matches.value_of("VPCID").unwrap();
+
 
     let filter = Filter {
         name: Some(String::from("vpc-id")),
-        values: Some(vec![String::from("vpc-abc123")])
+        values: Some(vec![String::from(vpc_id)])
     };
 
     let client = Ec2Client::new(Region::default());
@@ -82,7 +95,7 @@ fn main() {
     while resp.clone().next_token != None {
         let filter = Filter {
             name: Some(String::from("vpc-id")),
-            values: Some(vec![String::from("vpc-abc123")])
+            values: Some(vec![String::from(vpc_id)])
         };
         let describe_security_groups_req = DescribeSecurityGroupsRequest {
             filters: Some(vec![filter]),
