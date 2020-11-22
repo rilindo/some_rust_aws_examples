@@ -1,5 +1,5 @@
 [package]
-name = "ec2_describe_security_groups_2"
+name = "ec2_describe_vpcs"
 version = "0.1.0"
 authors = ["Rilindo Foster <rilindo@monzell-labs.net>"]
 edition = "2018"
