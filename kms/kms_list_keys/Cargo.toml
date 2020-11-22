@@ -1,5 +1,5 @@
 [package]
-name = "kms_list_keys_1"
+name = "kms_list_keys"
 version = "0.1.0"
 authors = ["Rilindo Foster <rilindo.foster@monzell.com>"]
 edition = "2018"

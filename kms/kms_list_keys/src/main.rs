@@ -9,16 +9,16 @@ use rusoto_kms::{Kms,
 
 #[tokio::main]
 async fn main() {
-    
+
     // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
     // to under how the defaults work for regions.
 
     let client = KmsClient::new(Region::default());
-    let list_keys_req = ListKeysRequest {
+    let list_keys_request = ListKeysRequest {
         ..Default::default()
     };
 
-    match client.list_keys(list_keys_req).await {
+    match client.list_keys(list_keys_request).await {
         Ok(output) => {
             match output.keys {
                 Some(keys) => {
