@@ -61,10 +61,10 @@ fn process_describe_security_groups(resp: DescribeSecurityGroupsResult) {
 
 fn main() {
 
-    let matches = App::new("Example List Record Set Using Rust")
+    let matches = App::new("Example Describe Security groups Using Rust")
                             .version("1.0")
                             .author("rilindo.foster@<rilindo.foster@monzell.com")
-                            .about("List Record Sets")
+                            .about("Describe Security Groups")
                             .arg(Arg::with_name("VPCID")
                                .help("VPC ID")
                                .required(true)

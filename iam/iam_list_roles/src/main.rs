@@ -8,9 +8,9 @@ use rusoto_iam::{Iam,
     ListRolesResponse
 };
 
-async fn list_roles(client: &IamClient, list_roles_req: ListRolesRequest) -> ListRolesResponse {
+async fn list_roles(client: &IamClient, list_roles_request: ListRolesRequest) -> ListRolesResponse {
 
-    let resp = client.list_roles(list_roles_req).await;
+    let resp = client.list_roles(list_roles_request).await;
     return resp.unwrap();
 
 }
@@ -38,22 +38,22 @@ fn main() {
     // to under how the defaults work for regions.
 
     let client = IamClient::new(Region::default());
-    let list_roles_req = ListRolesRequest {
+    let list_roles_request = ListRolesRequest {
         ..Default::default()
     };
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    let mut resp = rt.block_on(list_roles(&client, list_roles_req));
+    let mut resp = rt.block_on(list_roles(&client, list_roles_request));
 
     process_list_roles(resp.clone());
 
     while resp.clone().is_truncated.unwrap() {
-        let list_roles_req = ListRolesRequest {
+        let list_roles_request = ListRolesRequest {
             marker: resp.clone().marker,
             ..Default::default()
         };
-        resp = rt.block_on(list_roles(&client, list_roles_req));
+        resp = rt.block_on(list_roles(&client, list_roles_request));
         process_list_roles(resp.clone());
     }
 

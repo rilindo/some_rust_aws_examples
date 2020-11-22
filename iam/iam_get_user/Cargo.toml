@@ -1,5 +1,5 @@
 [package]
-name = "iam_list_policies_2"
+name = "iam_get_user"
 version = "0.1.0"
 authors = ["Rilindo Foster <rilindo@monzell-labs.net>"]
 edition = "2018"
@@ -10,3 +10,4 @@ edition = "2018"
 tokio = {"version"= "0.2", features=["rt-threaded", "macros"]}
 rusoto_core = "0.45.0"
 rusoto_iam = "0.45.0"
+clap = "2.33.3"

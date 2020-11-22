@@ -47,10 +47,10 @@ fn process_describe_instances(resp: DescribeInstancesResult) {
 
 fn main() {
 
-    let matches = App::new("Example List Record Set Using Rust")
+    let matches = App::new("Example Describe Instances")
                             .version("1.0")
                             .author("rilindo.foster@<rilindo.foster@monzell.com")
-                            .about("List Record Sets")
+                            .about("Describe Instances")
                             .arg(Arg::with_name("VPCID")
                                .help("VPC ID")
                                .required(true)
