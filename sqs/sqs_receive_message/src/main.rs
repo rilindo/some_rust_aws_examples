@@ -1,6 +1,9 @@
 extern crate rusoto_core;
 extern crate rusoto_sqs;
 
+extern crate clap;
+use clap::{Arg, App};
+
 use rusoto_core::Region;
 use rusoto_sqs::{Sqs,
     SqsClient,
@@ -35,14 +38,23 @@ async fn receive_message(client: &SqsClient, queue_url: &GetQueueUrlResult) -> R
 
 fn main() {
 
-    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
-    // to under how the defaults work for regions.
+    let matches = App::new("Example of a get queue URL using Rust")
+                            .version("1.0")
+                            .author("rilindo.foster@<rilindo.foster@monzell.com")
+                            .about("get queue url")
+                            .arg(Arg::with_name("queue_name")
+                                .short("q")
+                                .long("queue_name")
+                                .help("Set queue name")
+                                .required(true)
+                                .takes_value(true))
+                            .get_matches();
 
     let client = SqsClient::new(Region::default());
-    let my_queue_name = "my_queue_name";
+    let queue_name = matches.value_of("queue_name").unwrap();
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    let queue_url_resp = rt.block_on(get_queue_url(&client, &my_queue_name));
+    let queue_url_resp = rt.block_on(get_queue_url(&client, &queue_name));
 
     let receive_message_resp = rt.block_on(receive_message(&client, &queue_url_resp));
 
