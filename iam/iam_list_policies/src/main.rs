@@ -32,15 +32,13 @@ fn process_list_policies(resp: ListPoliciesResponse) {
         _ => ()
     }
     match resp.marker {
-        Some(marker) => println!("Next Marker: {}", marker),
-        None => println!("All markers have been processed"),
+        Some(_) => (),
+        None => println!("List policies complete"),
     }
 
 }
 
 fn main() {
-    // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
-    // to under how the defaults work for regions.
 
     let client = IamClient::new(Region::default());
     let list_policies_request = ListPoliciesRequest {

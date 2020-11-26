@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+  "cloudfront/*",
   "ec2/*",
   "iam/*",
   "kms/*",
