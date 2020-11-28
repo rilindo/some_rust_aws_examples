@@ -10,14 +10,14 @@ extern crate rusoto_core;
 extern crate rusoto_s3;
 
 use rusoto_core::Region;
-use rusoto_s3::{S3, S3Client, CreateBucketRequest, CreateBucketConfiguration};
-use std::process;
+use rusoto_s3::{CreateBucketConfiguration, CreateBucketRequest, S3Client, S3};
 use std::env;
 use std::error::Error;
+use std::process;
 
 struct Config {
     bucket_name: String,
-    region: String
+    region: String,
 }
 
 impl Config {
@@ -31,13 +31,12 @@ impl Config {
 
         Ok(Config {
             bucket_name,
-            region
+            region,
         })
     }
 }
 
 async fn bucket_request(bucket_name: &str, location_constraint: CreateBucketConfiguration) {
-
     let client = S3Client::new(Region::default());
 
     let create_bucket_req = CreateBucketRequest {
@@ -56,7 +55,6 @@ async fn bucket_request(bucket_name: &str, location_constraint: CreateBucketConf
 }
 
 fn bucket_create(config: Config) -> Result<(), Box<dyn Error>> {
-
     let bucket_name = config.bucket_name;
     let location_constraint = CreateBucketConfiguration {
         location_constraint: Some(config.region),
@@ -68,18 +66,15 @@ fn bucket_create(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 fn main() {
-
     let args: Vec<String> = env::args().collect();
 
-    let config  = Config::new(&args).unwrap_or_else(|err|{
+    let config = Config::new(&args).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {}", err);
         process::exit(1);
     });
-
 
     if let Err(e) = bucket_create(config) {
         eprintln!("Application error: {}", e);
         process::exit(1);
     };
-
 }

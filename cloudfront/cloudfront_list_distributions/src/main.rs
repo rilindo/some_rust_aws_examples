@@ -1,36 +1,32 @@
-extern crate rusoto_core;
 extern crate rusoto_cloudfront;
+extern crate rusoto_core;
 
-use rusoto_core::Region;
-use rusoto_cloudfront::{CloudFront,
-    CloudFrontClient,
-    ListDistributionsRequest,
-    ListDistributionsResult
+use rusoto_cloudfront::{
+    CloudFront, CloudFrontClient, ListDistributionsRequest, ListDistributionsResult,
 };
+use rusoto_core::Region;
 
-async fn list_distributions(client: &CloudFrontClient, list_distributions_request: ListDistributionsRequest) -> ListDistributionsResult {
-
+async fn list_distributions(
+    client: &CloudFrontClient,
+    list_distributions_request: ListDistributionsRequest,
+) -> ListDistributionsResult {
     let resp = client.list_distributions(list_distributions_request).await;
     return resp.unwrap();
-
 }
 
 fn list_distributions_result(resp: ListDistributionsResult) {
-
     match resp.distribution_list {
-        Some(distribution_list) => {
-            match distribution_list.items {
-                Some(items) => {
-                    for i in items {
-                        match i.arn {
-                            arn => println!("{}", arn)
-                        }
+        Some(distribution_list) => match distribution_list.items {
+            Some(items) => {
+                for i in items {
+                    match i.arn {
+                        arn => println!("{}", arn),
                     }
                 }
-                None => (),
             }
-        }
-        None => println!("No distributions in this region")
+            None => (),
+        },
+        None => println!("No distributions in this region"),
     }
 }
 
@@ -49,7 +45,6 @@ fn main() {
     list_distributions_result(resp.clone());
 
     while resp.clone().distribution_list.unwrap().is_truncated {
-
         let list_distributions_request = ListDistributionsRequest {
             marker: resp.clone().distribution_list.unwrap().next_marker,
             ..Default::default()

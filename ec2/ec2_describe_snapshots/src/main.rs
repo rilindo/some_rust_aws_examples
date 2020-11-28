@@ -2,36 +2,30 @@ extern crate rusoto_core;
 extern crate rusoto_ec2;
 
 use rusoto_core::Region;
-use rusoto_ec2::{Ec2,
-    Ec2Client,
-    DescribeSnapshotsRequest,
-    DescribeSnapshotsResult,
-    Filter
-};
+use rusoto_ec2::{DescribeSnapshotsRequest, DescribeSnapshotsResult, Ec2, Ec2Client, Filter};
 
-
-async fn describe_snapshots_request(client: &Ec2Client, describe_snapshots_req: DescribeSnapshotsRequest) -> DescribeSnapshotsResult {
-
+async fn describe_snapshots_request(
+    client: &Ec2Client,
+    describe_snapshots_req: DescribeSnapshotsRequest,
+) -> DescribeSnapshotsResult {
     let resp = client.describe_snapshots(describe_snapshots_req).await;
     return resp.unwrap();
-
 }
 
 fn describe_snapshots_result(resp: DescribeSnapshotsResult) {
-
     match resp.snapshots {
         Some(snapshots) => {
             for s in snapshots {
                 match s.description {
-                    Some(description) => println!("{}",description),
+                    Some(description) => println!("{}", description),
                     None => println!("No description available"),
                 }
                 match s.snapshot_id {
-                    Some(snapshot_id) => println!("{}",snapshot_id),
+                    Some(snapshot_id) => println!("{}", snapshot_id),
                     None => (),
                 }
                 match s.start_time {
-                    Some(start_time) => println!("{}",start_time),
+                    Some(start_time) => println!("{}", start_time),
                     None => (),
                 }
             }
@@ -42,15 +36,12 @@ fn describe_snapshots_result(resp: DescribeSnapshotsResult) {
         Some(token) => println!("{}", token),
         None => (),
     }
-
-
 }
 
 fn main() {
-
     let filter = Filter {
         name: None,
-        values: None
+        values: None,
     };
 
     let client = Ec2Client::new(Region::default());
@@ -59,7 +50,6 @@ fn main() {
         next_token: None,
         ..Default::default()
     };
-
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
@@ -70,7 +60,7 @@ fn main() {
     while resp.clone().next_token != None {
         let filter = Filter {
             name: None,
-            values: None
+            values: None,
         };
         let describe_snapshots_req = DescribeSnapshotsRequest {
             filters: Some(vec![filter]),

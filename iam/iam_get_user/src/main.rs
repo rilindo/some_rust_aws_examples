@@ -2,26 +2,24 @@ extern crate rusoto_core;
 extern crate rusoto_iam;
 
 extern crate clap;
-use clap::{Arg, App};
+use clap::{App, Arg};
 
 use rusoto_core::Region;
-use rusoto_iam::{Iam,
-    IamClient,
-    GetUserRequest,
-};
+use rusoto_iam::{GetUserRequest, Iam, IamClient};
 
 #[tokio::main]
 async fn main() {
-
     let matches = App::new("Example Get User Using Rust")
-                            .version("1.0")
-                            .author("rilindo.foster@<rilindo.foster@monzell.com")
-                            .about("Describe Security Groups")
-                            .arg(Arg::with_name("USERNAME")
-                               .help("USERNAME")
-                               .required(true)
-                               .index(1))
-                              .get_matches();
+        .version("1.0")
+        .author("rilindo.foster@<rilindo.foster@monzell.com")
+        .about("Describe Security Groups")
+        .arg(
+            Arg::with_name("USERNAME")
+                .help("USERNAME")
+                .required(true)
+                .index(1),
+        )
+        .get_matches();
     let user_name = matches.value_of("USERNAME").unwrap();
 
     let client = IamClient::new(Region::default());

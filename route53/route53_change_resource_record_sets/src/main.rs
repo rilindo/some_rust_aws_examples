@@ -2,25 +2,21 @@ extern crate rusoto_core;
 extern crate rusoto_route53;
 
 use rusoto_core::Region;
-use rusoto_route53::{Route53,
-    Route53Client,
-    ResourceRecordSet,
-    ResourceRecord,
-    ChangeResourceRecordSetsRequest,
-    Change,
-    ChangeBatch
+use rusoto_route53::{
+    Change, ChangeBatch, ChangeResourceRecordSetsRequest, ResourceRecord, ResourceRecordSet,
+    Route53, Route53Client,
 };
 
-use std::process;
 use std::env;
 use std::error::Error;
+use std::process;
 
 struct NameServerRecord {
     record_name: String,
     record_type: String,
     ip: String,
     ttl: i64,
-    hosted_zone_id: String
+    hosted_zone_id: String,
 }
 
 impl NameServerRecord {
@@ -46,7 +42,6 @@ impl NameServerRecord {
 }
 
 fn create_name_record(config: NameServerRecord) -> Result<(), Box<dyn Error>> {
-
     let record_name = config.record_name;
     let record_type = config.record_type;
     let hosted_zone_id = config.hosted_zone_id;
@@ -55,19 +50,30 @@ fn create_name_record(config: NameServerRecord) -> Result<(), Box<dyn Error>> {
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    rt.block_on(route53_request(&record_name, &record_type, &hosted_zone_id, ttl, &ip));
+    rt.block_on(route53_request(
+        &record_name,
+        &record_type,
+        &hosted_zone_id,
+        ttl,
+        &ip,
+    ));
     Ok(())
 }
 
-async fn route53_request(record_name: &str, record_type: &str, hosted_zone_id: &str, ttl: i64, ip: &str) {
-
+async fn route53_request(
+    record_name: &str,
+    record_type: &str,
+    hosted_zone_id: &str,
+    ttl: i64,
+    ip: &str,
+) {
     // See https://docs.rs/rusoto_core/0.40.0/rusoto_core/region/enum.Region.html#default
     // to under how the defaults work for regions.
 
     let client = Route53Client::new(Region::default());
 
     let resource_record = ResourceRecord {
-        value: ip.to_string()
+        value: ip.to_string(),
     };
 
     let resource_records = vec![resource_record];
@@ -82,7 +88,7 @@ async fn route53_request(record_name: &str, record_type: &str, hosted_zone_id: &
 
     let change = Change {
         action: "UPSERT".to_string(),
-        resource_record_set: create_record_set_req.clone()
+        resource_record_set: create_record_set_req.clone(),
     };
 
     let changes = vec![change];
@@ -94,24 +100,24 @@ async fn route53_request(record_name: &str, record_type: &str, hosted_zone_id: &
 
     let change_resource_record_sets_request = ChangeResourceRecordSetsRequest {
         change_batch: change_batch.clone(),
-        hosted_zone_id: hosted_zone_id.to_string()
+        hosted_zone_id: hosted_zone_id.to_string(),
     };
 
-    let resp = client.change_resource_record_sets(change_resource_record_sets_request).await;
+    let resp = client
+        .change_resource_record_sets(change_resource_record_sets_request)
+        .await;
 
     println!(
         "RecordSet {} created, resp: {:#?}",
         record_name.to_string(),
         resp.unwrap()
     );
-
 }
 
 fn main() {
-
     let args: Vec<String> = env::args().collect();
 
-    let name_server_record  = NameServerRecord::new(&args).unwrap_or_else(|err|{
+    let name_server_record = NameServerRecord::new(&args).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {}", err);
         process::exit(1);
     });
@@ -120,5 +126,4 @@ fn main() {
         eprintln!("Application error: {}", e);
         process::exit(1);
     };
-
 }

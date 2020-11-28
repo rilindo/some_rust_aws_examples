@@ -2,23 +2,24 @@ extern crate rusoto_core;
 extern crate rusoto_s3;
 
 extern crate clap;
-use clap::{Arg, App};
+use clap::{App, Arg};
 
 use rusoto_core::Region;
-use rusoto_s3::{S3, S3Client, DeleteBucketRequest};
+use rusoto_s3::{DeleteBucketRequest, S3Client, S3};
 
 #[tokio::main]
 async fn main() {
-
     let matches = App::new("Example Delete Bucket by Rust")
-                            .version("1.0")
-                            .author("rilindo.foster@<rilindo.foster@monzell.com")
-                            .about("Delete Bucket")
-                            .arg(Arg::with_name("BUCKETNAME")
-                               .help("Bucket Name")
-                               .required(true)
-                               .index(1))
-                              .get_matches();
+        .version("1.0")
+        .author("rilindo.foster@<rilindo.foster@monzell.com")
+        .about("Delete Bucket")
+        .arg(
+            Arg::with_name("BUCKETNAME")
+                .help("Bucket Name")
+                .required(true)
+                .index(1),
+        )
+        .get_matches();
 
     let bucket_name = matches.value_of("BUCKETNAME").unwrap();
 
@@ -35,5 +36,4 @@ async fn main() {
         bucket_name.clone(),
         resp.unwrap()
     );
-
 }

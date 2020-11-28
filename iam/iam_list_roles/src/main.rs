@@ -2,35 +2,26 @@ extern crate rusoto_core;
 extern crate rusoto_iam;
 
 use rusoto_core::Region;
-use rusoto_iam::{Iam,
-    IamClient,
-    ListRolesRequest,
-    ListRolesResponse
-};
+use rusoto_iam::{Iam, IamClient, ListRolesRequest, ListRolesResponse};
 
 async fn list_roles(client: &IamClient, list_roles_request: ListRolesRequest) -> ListRolesResponse {
-
     let resp = client.list_roles(list_roles_request).await;
     return resp.unwrap();
-
 }
 
 fn process_list_roles(resp: ListRolesResponse) {
-
     for r in resp.roles {
         match r.role_name {
-            role_name => println!("Role Name: {}",role_name)
+            role_name => println!("Role Name: {}", role_name),
         }
         match r.arn {
-            arn => println!("Role ARN: {}",arn)
+            arn => println!("Role ARN: {}", arn),
         }
-
     }
     match resp.marker {
         Some(marker) => println!("Next Marker: {}", marker),
         None => println!("All markers have been processed"),
     }
-
 }
 
 fn main() {
@@ -56,5 +47,4 @@ fn main() {
         resp = rt.block_on(list_roles(&client, list_roles_request));
         process_list_roles(resp.clone());
     }
-
 }

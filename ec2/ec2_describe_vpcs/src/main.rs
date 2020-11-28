@@ -2,10 +2,7 @@ extern crate rusoto_core;
 extern crate rusoto_ec2;
 
 use rusoto_core::Region;
-use rusoto_ec2::{Ec2,
-    Ec2Client,
-    DescribeVpcsRequest
-};
+use rusoto_ec2::{DescribeVpcsRequest, Ec2, Ec2Client};
 
 #[tokio::main]
 async fn main() {
@@ -22,8 +19,8 @@ async fn main() {
                 Some(vpcs) => {
                     for v in vpcs {
                         match v.vpc_id {
-                            Some(vpc_id) => println!("{}",vpc_id),
-                            None => println!("No vpcs this region")
+                            Some(vpc_id) => println!("{}", vpc_id),
+                            None => println!("No vpcs this region"),
                         }
                     }
                 }

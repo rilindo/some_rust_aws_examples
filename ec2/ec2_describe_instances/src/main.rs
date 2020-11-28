@@ -2,25 +2,20 @@ extern crate rusoto_core;
 extern crate rusoto_ec2;
 
 extern crate clap;
-use clap::{Arg, App};
+use clap::{App, Arg};
 
 use rusoto_core::Region;
-use rusoto_ec2::{Ec2,
-    Ec2Client,
-    DescribeInstancesRequest,
-    DescribeInstancesResult,
-    Filter
-};
+use rusoto_ec2::{DescribeInstancesRequest, DescribeInstancesResult, Ec2, Ec2Client, Filter};
 
-async fn describe_instances(client: &Ec2Client, describe_instances_request: DescribeInstancesRequest) -> DescribeInstancesResult {
-
+async fn describe_instances(
+    client: &Ec2Client,
+    describe_instances_request: DescribeInstancesRequest,
+) -> DescribeInstancesResult {
     let resp = client.describe_instances(describe_instances_request).await;
     return resp.unwrap();
-
 }
 
 fn process_describe_instances(resp: DescribeInstancesResult) {
-
     match resp.reservations {
         Some(reservations) => {
             for r in reservations {
@@ -28,7 +23,7 @@ fn process_describe_instances(resp: DescribeInstancesResult) {
                     Some(instances) => {
                         for i in instances {
                             match i.instance_id {
-                                Some(instance_id) => println!("{}",instance_id),
+                                Some(instance_id) => println!("{}", instance_id),
                                 None => println!("No instances in this region"),
                             }
                         }
@@ -46,21 +41,22 @@ fn process_describe_instances(resp: DescribeInstancesResult) {
 }
 
 fn main() {
-
     let matches = App::new("Example Describe Instances")
-                            .version("1.0")
-                            .author("rilindo.foster@<rilindo.foster@monzell.com")
-                            .about("Describe Instances")
-                            .arg(Arg::with_name("VPCID")
-                               .help("VPC ID")
-                               .required(true)
-                               .index(1))
-                              .get_matches();
+        .version("1.0")
+        .author("rilindo.foster@<rilindo.foster@monzell.com")
+        .about("Describe Instances")
+        .arg(
+            Arg::with_name("VPCID")
+                .help("VPC ID")
+                .required(true)
+                .index(1),
+        )
+        .get_matches();
     let vpc_id = matches.value_of("VPCID").unwrap();
 
     let filter = Filter {
         name: Some(String::from("vpc-id")),
-        values: Some(vec![String::from(vpc_id)])
+        values: Some(vec![String::from(vpc_id)]),
     };
 
     let client = Ec2Client::new(Region::default());
@@ -79,7 +75,7 @@ fn main() {
     while resp.clone().next_token != None {
         let filter = Filter {
             name: Some(String::from("vpc-id")),
-            values: Some(vec![String::from(vpc_id)])
+            values: Some(vec![String::from(vpc_id)]),
         };
         let describe_instances_request = DescribeInstancesRequest {
             filters: Some(vec![filter]),
