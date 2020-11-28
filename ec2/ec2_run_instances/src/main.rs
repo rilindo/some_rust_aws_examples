@@ -38,10 +38,10 @@ fn main() {
     // Run instances. Note that key name is not specified, so you will not be able to
     // login if ssm is not installed and you do not have the proper role assigned to it.
 
-    let matches = App::new("Example Run Instances Instances")
+    let matches = App::new("Example Run Instances Using Rust")
                             .version("1.0")
                             .author("rilindo.foster@<rilindo.foster@monzell.com")
-                            .about("Run Instances Instances")
+                            .about("Run Instances")
                             .arg(Arg::with_name("instance_count")
                                 .short("c")
                                 .long("instance_count")
