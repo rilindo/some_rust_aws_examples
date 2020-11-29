@@ -37,7 +37,7 @@ fn main() {
         .author("rilindo.foster@<rilindo.foster@monzell.com")
         .about("Describe Subnets")
         .arg(
-            Arg::with_name("VPCID")
+            Arg::with_name("vpc_id")
                 .short("v")
                 .long("vpc_id")
                 .help("VPC ID")
@@ -46,7 +46,7 @@ fn main() {
         )
         .get_matches();
 
-    let vpc_id = matches.value_of("VPCID").unwrap();
+    let vpc_id = matches.value_of("vpc_id").unwrap();
 
     let filter = Filter {
         name: Some(String::from("vpc-id")),
