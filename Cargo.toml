@@ -5,6 +5,7 @@ members = [
   "ec2/*",
   "iam/*",
   "kms/*",
+  "rds/*",
   "route53/*",
   "s3/*",
   "ses/*",
