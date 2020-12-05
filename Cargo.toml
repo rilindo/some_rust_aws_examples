@@ -1,15 +1,15 @@
 [workspace]
 
 members = [
-  "cloudfront/*",
-  "ec2/*",
-  "iam/*",
-  "kms/*",
-  "rds/*",
-  "route53/*",
-  "s3/*",
-  "ses/*",
-  "sns/*",
-  "sqs/*",
-  "ssm/*"
+  "basic/cloudfront/*",
+  "basic/ec2/*",
+  "basic/iam/*",
+  "basic/kms/*",
+  "basic/rds/*",
+  "basic/route53/*",
+  "basic/s3/*",
+  "basic/ses/*",
+  "basic/sns/*",
+  "basic/sqs/*",
+  "basic/ssm/*"
 ]
