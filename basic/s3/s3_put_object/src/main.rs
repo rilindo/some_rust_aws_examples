@@ -20,14 +20,16 @@ async fn main() {
                 .help("Bucket Name")
                 .required(true)
                 .takes_value(true),
-        ).arg(
+        )
+        .arg(
             Arg::with_name("value")
                 .short("v")
                 .long("value")
                 .help("value")
                 .required(true)
                 .takes_value(true),
-        ).arg(
+        )
+        .arg(
             Arg::with_name("key")
                 .short("k")
                 .long("key")
