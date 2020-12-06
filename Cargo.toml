@@ -1,15 +1,5 @@
 [workspace]
 
 members = [
-  "basic/cloudfront/*",
-  "basic/ec2/*",
-  "basic/iam/*",
-  "basic/kms/*",
-  "basic/rds/*",
-  "basic/route53/*",
-  "basic/s3/*",
-  "basic/ses/*",
-  "basic/sns/*",
-  "basic/sqs/*",
-  "basic/ssm/*"
+  "basic/*/*"
 ]
