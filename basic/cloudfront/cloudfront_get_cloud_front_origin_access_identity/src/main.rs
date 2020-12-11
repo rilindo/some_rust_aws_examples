@@ -5,7 +5,8 @@ extern crate clap;
 use clap::{App, Arg};
 
 use rusoto_cloudfront::{
-    CloudFront, CloudFrontClient, GetCloudFrontOriginAccessIdentityRequest, GetCloudFrontOriginAccessIdentityResult,
+    CloudFront, CloudFrontClient, GetCloudFrontOriginAccessIdentityRequest,
+    GetCloudFrontOriginAccessIdentityResult,
 };
 use rusoto_core::Region;
 
@@ -13,7 +14,9 @@ async fn get_cloud_front_origin_access_identity(
     client: &CloudFrontClient,
     get_cloud_front_origin_access_identity: GetCloudFrontOriginAccessIdentityRequest,
 ) -> GetCloudFrontOriginAccessIdentityResult {
-    let resp = client.get_cloud_front_origin_access_identity(get_cloud_front_origin_access_identity).await;
+    let resp = client
+        .get_cloud_front_origin_access_identity(get_cloud_front_origin_access_identity)
+        .await;
     return resp.unwrap();
 }
 
@@ -22,17 +25,21 @@ fn get_cloud_front_origin_access_identity_result(resp: GetCloudFrontOriginAccess
         Some(cloud_front_origin_access_identity) => {
             match cloud_front_origin_access_identity.cloud_front_origin_access_identity_config {
                 Some(cloud_front_origin_access_identity_config) => {
-                    println!("Caller ID: {}, Caller Reference: {}", cloud_front_origin_access_identity.id, cloud_front_origin_access_identity_config.caller_reference)
+                    println!(
+                        "Caller ID: {}, Caller Reference: {}",
+                        cloud_front_origin_access_identity.id,
+                        cloud_front_origin_access_identity_config.caller_reference
+                    )
                 }
-                None => ()
+                None => (),
             }
         }
-        None => ()
+        None => (),
     }
 }
 
 fn main() {
-    let matches = App::new("Example of a get cloudfront identity call using Rust and Rusoto" )
+    let matches = App::new("Example of a get cloudfront identity call using Rust and Rusoto")
         .version("1.0")
         .author("rilindo.foster@<rilindo.foster@monzell.com")
         .about("Get cloudfront origin access id")
@@ -57,7 +64,10 @@ fn main() {
 
     let mut rt = tokio::runtime::Runtime::new().unwrap();
 
-    let resp = rt.block_on(get_cloud_front_origin_access_identity(&client, get_cloud_front_origin_access_identity_req));
+    let resp = rt.block_on(get_cloud_front_origin_access_identity(
+        &client,
+        get_cloud_front_origin_access_identity_req,
+    ));
 
     get_cloud_front_origin_access_identity_result(resp.clone());
 }
